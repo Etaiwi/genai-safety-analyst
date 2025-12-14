@@ -5,6 +5,8 @@ from typing import List, Optional
 from dotenv import load_dotenv
 import os
 
+from src.pipelines.analysis_pipeline import AnalysisPipeline
+
 load_dotenv()  # loads OPENAI_API_KEY, etc.
 
 app = FastAPI(
@@ -12,6 +14,8 @@ app = FastAPI(
     description="LLM-powered multi-agent service for content safety analysis.",
     version="0.1.0",
 )
+
+pipeline = AnalysisPipeline()
 
 # === Request / Response Schemas ===
 
@@ -38,17 +42,12 @@ def health_check():
 
 
 @app.post("/analyze", response_model=AnalysisResponse)
-def analyze_content(item: ContentItem):
+async def analyze_content(item: ContentItem):
     """
-    Placeholder implementation: will call our agentic pipeline later.
+    Calls the async analysis pipeline.
     """
-    # TODO: replace this mock with real pipeline call
-    dummy_decision = PolicyDecision(
-        label="allowed",
-        confidence=0.5,
-        reasons=["Default placeholder decision. Pipeline not wired yet."]
-    )
+    result = await pipeline.analyze(content_id=item.id, text=item.text)
     return AnalysisResponse(
-        content_id=item.id,
-        decision=dummy_decision
+        content_id=result["content_id"],
+        decision=PolicyDecision(**result["decision"])
     )
