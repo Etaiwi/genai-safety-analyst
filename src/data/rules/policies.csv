@@ -1,0 +1,7 @@
+id,category,title,text,severity
+p1,harassment,Harassment & Bullying,"Content that targets a person or group with insults, threats, or demeaning language may be considered harassment. Repeated targeted insults or threats should be flagged.",medium
+p2,self-harm,Self-harm,"Content encouraging self-harm or describing intent or methods in a way that enables harm should be blocked or escalated. Support-seeking content should be handled with care.",high
+p3,hate,Hate,"Content that attacks a protected group (based on race, religion, ethnicity, sexual orientation, etc.) may be hate speech. Direct slurs or dehumanization should be blocked.",high
+p4,sexual,Sexual content,"Explicit sexual content involving minors must be blocked and escalated. Adult explicit content may be restricted depending on policy context.",high
+p5,benign,Benign content,"General neutral content that does not violate policy should be allowed.",low
+p6,politics,Political persuasion,"Political persuasion content may require labeling depending on jurisdiction and policy. Targeted persuasion or misinformation claims may require review.",medium
