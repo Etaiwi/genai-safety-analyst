@@ -183,12 +183,29 @@ df -h
 - t2.micro provides 1GB RAM (may be insufficient)
 - Consider t3.micro (2GB RAM) - still free tier eligible
 
+### Tests not running locally?
+- Use `PYTHONPATH=. pytest -q` (required for src/ directory structure)
+
 ## Security Notes
 
 1. Never commit `.env` to Git (already in `.gitignore`)
 2. Use security groups to limit access
 3. Keep EC2 updated: `sudo yum update -y`
 4. Use HTTPS in production (configure Let's Encrypt)
+
+## Testing After Deployment
+
+Once deployed, test the application:
+
+```bash
+# Health check
+curl http://your-ec2-ip:8000/health
+
+# Test analysis endpoint
+curl -X POST "http://your-ec2-ip:8000/analyze" \
+  -H "Content-Type: application/json" \
+  -d '{"id": "test1", "text": "Hello, how are you?"}'
+```
 
 ## Cost Monitoring
 

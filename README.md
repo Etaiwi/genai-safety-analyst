@@ -52,6 +52,28 @@ API will be available at: http://localhost:8000
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for complete guide to deploy on AWS EC2.
 
+## Testing
+
+### API Testing
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Analyze content
+curl -X POST "http://localhost:8000/analyze" \
+  -H "Content-Type: application/json" \
+  -d '{"id": "test1", "text": "Hello, how are you?"}'
+```
+
+### Unit Tests
+```bash
+# Run all tests (requires PYTHONPATH for src/ imports)
+PYTHONPATH=. pytest -q
+
+# Run specific test file
+PYTHONPATH=. pytest tests/test_api.py -v
+```
+
 ## Cost Structure
 
 - **Groq LLM**: Tier-based (generous free tier available)

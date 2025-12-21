@@ -116,6 +116,9 @@ uvicorn src.api.main:app --reload
 curl -X POST "http://localhost:8000/analyze" \
   -H "Content-Type: application/json" \
   -d '{"id": "test1", "text": "Hello, how are you?"}'
+
+# Run unit tests (requires PYTHONPATH for src/ imports)
+PYTHONPATH=. pytest -q
 ```
 
 ## Troubleshooting
