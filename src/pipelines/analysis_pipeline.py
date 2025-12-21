@@ -1,6 +1,8 @@
 from typing import Dict, Any
 
 from ..agents.classifier_agent import ClassifierAgent
+from ..agents.retriever_agent import RetrieverAgent
+from ..agents.compliance_agent import ComplianceAgent
 
 
 class AnalysisPipeline:
@@ -10,7 +12,8 @@ class AnalysisPipeline:
 
     def __init__(self):
         self.classifier = ClassifierAgent()
-        # TODO: add retriever_agent, compliance_agent
+        self.retriever = RetrieverAgent()
+        self.compliance = ComplianceAgent()
 
     async def analyze(self, content_id: str, text: str) -> Dict[str, Any]:
         """
@@ -19,28 +22,36 @@ class AnalysisPipeline:
         """
         # 1) classification
         cls_result = await self.classifier.run(text=text)
+        category = cls_result["category"]
+        needs_review = cls_result["needs_review"]
 
-        if not cls_result["needs_review"]:
+        # If classifier says no review needed, still allow but with good reasons:
+        if not needs_review:
             decision = {
                 "label": "allowed",
-                "confidence": 0.8,
+                "confidence": 0.85,
                 "reasons": [
-                    f"Classifier categorized as '{cls_result['category']}' and no review needed.",
+                    f"Classifier categorized as '{category}' and determined no further review is needed.",
                     cls_result["explanation"],
                 ],
             }
-        else:
-            # TODO: use retriever + compliance agents here
-            decision = {
-                "label": "flag",
-                "confidence": 0.6,
-                "reasons": [
-                    f"Classifier flagged category '{cls_result['category']}' requiring review.",
-                    "Detailed compliance check pipeline not yet implemented.",
-                ],
-            }
+            return {"content_id": content_id, "decision": decision}
 
-        return {
-            "content_id": content_id,
-            "decision": decision,
+        # 2) retrieval (RAG)
+        retrieval = await self.retriever.run(text=text, category=category)
+        retrieved_policies = retrieval["retrieved_policies"]
+
+        # 3) compliance decision
+        compliance = await self.compliance.run(
+            text=text,
+            category=category,
+            retrieved_policies=retrieved_policies,
+        )
+
+        decision = {
+            "label": compliance["label"],
+            "confidence": compliance["confidence"],
+            "reasons": compliance["reasons"],
         }
+
+        return {"content_id": content_id, "decision": decision}
