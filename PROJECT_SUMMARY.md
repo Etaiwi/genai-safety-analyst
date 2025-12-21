@@ -1,10 +1,10 @@
 # GenAI Safety Analyst - Project Summary
 
-## 🎯 Project Overview
+## Project Overview
 
-A **100% free** multi-agent content safety analysis system that uses RAG (Retrieval-Augmented Generation) to classify and evaluate user content against policy rules. Built with FastAPI, LangChain, Groq (free LLM), and HuggingFace (free embeddings).
+A multi-agent content safety analysis system that uses RAG (Retrieval-Augmented Generation) to classify and evaluate user content against policy rules. Built with FastAPI, LangChain, Groq, and HuggingFace. The architecture is designed for cost efficiency using open-source and tier-based services.
 
-## 🏗️ Architecture
+## Architecture
 
 ### Multi-Agent Pipeline
 
@@ -20,23 +20,23 @@ User Content
 Policy Decision (label, confidence, reasons)
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 genai-safety-analyst/
 ├── src/
 │   ├── agents/
 │   │   ├── base.py                 # Base agent abstract class
-│   │   ├── classifier_agent.py     # Content categorization (Groq LLM)
+│   │   ├── classifier_agent.py     # Content categorization
 │   │   ├── retriever_agent.py      # Policy retrieval (RAG)
-│   │   └── compliance_agent.py     # Final decision maker (Groq LLM)
+│   │   └── compliance_agent.py     # Final decision maker
 │   ├── api/
 │   │   └── main.py                 # FastAPI REST API
 │   ├── pipelines/
 │   │   └── analysis_pipeline.py   # Orchestrates all agents
 │   ├── utils/
 │   │   ├── policy_loader.py        # Loads policies from CSV
-│   │   ├── vector_db.py            # ChromaDB wrapper (HuggingFace embeddings)
+│   │   ├── vector_db.py            # ChromaDB wrapper with HuggingFace embeddings
 │   │   └── ingest_policies.py      # One-time ingestion script
 │   └── data/
 │       └── rules/
@@ -46,11 +46,10 @@ genai-safety-analyst/
 ├── requirements.txt                 # Python dependencies
 ├── README.md                        # Setup instructions
 ├── DEPLOYMENT.md                    # EC2 deployment guide
-├── FREE_SETUP.md                    # Free setup guide
 └── PROJECT_SUMMARY.md               # This file
 ```
 
-## 🔧 Components Explained
+## Components
 
 ### 1. Agents
 
@@ -60,27 +59,24 @@ genai-safety-analyst/
 - Ensures consistent agent structure
 
 #### ClassifierAgent (`src/agents/classifier_agent.py`)
-- **Purpose**: Categorizes user content
-- **LLM**: Groq (llama-3.1-8b-instant) - FREE
-- **Input**: User text
-- **Output**: `{category, needs_review, explanation}`
-- **Cost**: $0 (free tier)
+- Purpose: Categorizes user content
+- LLM: Groq (llama-3.1-8b-instant)
+- Input: User text
+- Output: `{category, needs_review, explanation}`
 
 #### RetrieverAgent (`src/agents/retriever_agent.py`)
-- **Purpose**: Finds relevant policies using semantic search
-- **Technology**: RAG (Retrieval-Augmented Generation)
-- **Embeddings**: HuggingFace (all-MiniLM-L6-v2) - FREE
-- **Vector DB**: ChromaDB (local storage)
-- **Input**: User text + category
-- **Output**: `{retrieved_policies: [...]}`
-- **Cost**: $0 (runs locally)
+- Purpose: Finds relevant policies using semantic search
+- Technology: RAG (Retrieval-Augmented Generation)
+- Embeddings: HuggingFace (all-MiniLM-L6-v2)
+- Vector DB: ChromaDB (local storage)
+- Input: User text + category
+- Output: `{retrieved_policies: [...]}`
 
 #### ComplianceAgent (`src/agents/compliance_agent.py`)
-- **Purpose**: Makes final policy decision
-- **LLM**: Groq (llama-3.1-8b-instant) - FREE
-- **Input**: User text + category + retrieved policies
-- **Output**: `{label, confidence, reasons}`
-- **Cost**: $0 (free tier)
+- Purpose: Makes final policy decision
+- LLM: Groq (llama-3.1-8b-instant)
+- Input: User text + category + retrieved policies
+- Output: `{label, confidence, reasons}`
 
 ### 2. Pipeline
 
@@ -100,7 +96,7 @@ genai-safety-analyst/
 
 #### VectorStore (`src/utils/vector_db.py`)
 - Wraps ChromaDB vector database
-- Uses HuggingFace embeddings (free, local)
+- Uses HuggingFace embeddings (local execution)
 - Provides semantic search functionality
 - Stores policies as embeddings for fast retrieval
 
@@ -125,19 +121,17 @@ genai-safety-analyst/
   - harassment, self-harm, hate, sexual, benign, politics
 - Columns: `id, category, title, text, severity`
 
-## 💰 Cost Breakdown (100% Free!)
+## Cost Structure
 
-| Component | Service | Cost | Payment Needed? |
-|-----------|---------|------|-----------------|
-| LLM | Groq (free tier) | $0 | ❌ No |
-| Embeddings | HuggingFace (local) | $0 | ❌ No |
-| Vector DB | ChromaDB (local) | $0 | ❌ No |
-| API Framework | FastAPI (open source) | $0 | ❌ No |
-| Cloud (optional) | EC2 Free Tier | $0 | ⚠️ Yes* |
+| Component | Service | Cost Model |
+|-----------|---------|------------|
+| LLM | Groq | Tier-based (generous free tier available) |
+| Embeddings | HuggingFace | Local execution (no API costs) |
+| Vector DB | ChromaDB | Local storage (no cloud costs) |
+| API Framework | FastAPI | Open source |
+| Cloud (optional) | EC2 | Free tier eligible (750 hrs/month) |
 
-*AWS EC2 free tier requires account but won't charge if within limits (750 hrs/month)
-
-## 🔄 Complete Flow Example
+## Complete Flow Example
 
 ```
 1. User sends: "I'm going to hurt myself"
@@ -167,51 +161,47 @@ genai-safety-analyst/
    }
 ```
 
-## 🚀 Technology Stack
+## Technology Stack
 
 ### Core
-- **Python 3.11+**
-- **FastAPI** - Modern web framework
-- **LangChain** - LLM orchestration
-- **Pydantic** - Data validation
+- Python 3.11+
+- FastAPI - Web framework
+- LangChain - LLM orchestration
+- Pydantic - Data validation
 
 ### LLM & AI
-- **Groq** - Free LLM API (llama-3.1-8b-instant)
-- **HuggingFace** - Free embeddings (sentence-transformers)
-- **ChromaDB** - Vector database
+- Groq - LLM API (llama-3.1-8b-instant)
+- HuggingFace - Embeddings (sentence-transformers)
+- ChromaDB - Vector database
 
 ### Utilities
-- **pandas** - CSV processing
-- **python-dotenv** - Environment variables
-- **uvicorn** - ASGI server
+- pandas - CSV processing
+- python-dotenv - Environment variables
+- uvicorn - ASGI server
 
-## 📊 Key Features
+## Key Features
 
-✅ **100% Free** - No payment methods needed (except optional EC2)
-✅ **Multi-Agent** - Three specialized agents working together
-✅ **RAG-Based** - Semantic search for policy matching
-✅ **Fast** - Groq provides very fast inference
-✅ **Local Embeddings** - No API calls for embeddings
-✅ **Structured Output** - Consistent JSON responses
-✅ **Production-Ready** - Can deploy to EC2 free tier
+- Multi-Agent Architecture - Three specialized agents working together
+- RAG-Based Retrieval - Semantic search for policy matching
+- Fast Inference - Optimized LLM inference via Groq
+- Local Embeddings - No API calls required for embeddings
+- Structured Output - Consistent JSON responses
+- Production-Ready - Deployable to cloud infrastructure
 
-## 🔐 Environment Variables
+## Environment Variables
 
 Required:
-- `GROQ_API_KEY` - Get free key from https://console.groq.com/
+- `GROQ_API_KEY` - Obtain from https://console.groq.com/
 
-Optional:
-- None! Everything else runs locally or uses free services.
+## Setup Steps
 
-## 📝 Setup Steps
+1. Install dependencies: `pip install -r requirements.txt`
+2. Obtain Groq API key: https://console.groq.com/
+3. Create `.env`: `GROQ_API_KEY=your-key-here`
+4. Ingest policies: `python -m src.utils.ingest_policies`
+5. Run API: `uvicorn src.api.main:app --reload`
 
-1. **Install dependencies**: `pip install -r requirements.txt`
-2. **Get Groq API key**: https://console.groq.com/ (free, no payment)
-3. **Create `.env`**: `GROQ_API_KEY=your-key-here`
-4. **Ingest policies**: `python -m src.utils.ingest_policies`
-5. **Run API**: `uvicorn src.api.main:app --reload`
-
-## 🧪 Testing
+## Testing
 
 ```bash
 # Health check
@@ -223,42 +213,39 @@ curl -X POST "http://localhost:8000/analyze" \
   -d '{"id": "test1", "text": "Hello, how are you?"}'
 ```
 
-## 📦 Deployment
+## Deployment
 
-See `DEPLOYMENT.md` for complete EC2 free tier deployment guide.
+See `DEPLOYMENT.md` for EC2 deployment instructions.
 
-## 🎓 Learning Points
+## Learning Points
 
 This project demonstrates:
-- **Multi-agent systems** - Specialized agents working together
-- **RAG (Retrieval-Augmented Generation)** - Semantic search + LLM
-- **Vector databases** - Embeddings and similarity search
-- **Free AI services** - Building without costs
-- **FastAPI** - Modern Python web APIs
-- **LangChain** - LLM orchestration patterns
+- Multi-agent systems - Specialized agents working together
+- RAG (Retrieval-Augmented Generation) - Semantic search + LLM
+- Vector databases - Embeddings and similarity search
+- Cost-optimized AI services - Efficient service selection
+- FastAPI - Modern Python web APIs
+- LangChain - LLM orchestration patterns
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 Potential improvements:
-- [ ] Add more policy categories
-- [ ] Support multiple languages
-- [ ] Add caching for repeated queries
-- [ ] Implement rate limiting
-- [ ] Add monitoring/logging
-- [ ] Support batch processing
-- [ ] Add web UI
-- [ ] Implement fine-tuning for specific domains
+- Add more policy categories
+- Support multiple languages
+- Add caching for repeated queries
+- Implement rate limiting
+- Add monitoring/logging
+- Support batch processing
+- Add web UI
+- Implement fine-tuning for specific domains
 
-## 📚 Documentation Files
+## Documentation Files
 
 - `README.md` - Quick start guide
 - `DEPLOYMENT.md` - EC2 deployment instructions
-- `FREE_SETUP.md` - Free setup details
-- `PROJECT_SUMMARY.md` - This comprehensive overview
+- `PROJECT_SUMMARY.md` - This overview
 
 ---
 
-**Status**: ✅ Complete and ready for deployment
-**Cost**: 💰 $0/month (100% free)
+**Status**: Complete and ready for deployment
 **License**: See LICENSE file
-

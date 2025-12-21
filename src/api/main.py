@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 
-load_dotenv()  # loads GROQ_API_KEY for free LLM (no payment method needed)
+load_dotenv()  # loads GROQ_API_KEY for LLM service
 
 app = FastAPI(
     title="GenAI Safety Analyst",

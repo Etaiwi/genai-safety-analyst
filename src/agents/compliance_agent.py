@@ -18,17 +18,16 @@ class ComplianceResult(BaseModel):
 class ComplianceAgent(BaseAgent):
     """
     Produces a final policy decision using the content + retrieved policies.
-    Uses Groq (free tier) for fast, free LLM inference.
+    Uses Groq for LLM inference.
     """
 
     def __init__(self, model_name: str = "llama-3.1-8b-instant"):
-        # Groq offers free tier - get API key from https://console.groq.com/
-        # No payment method required for free tier!
+        # Obtain API key from https://console.groq.com/
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise ValueError(
                 "GROQ_API_KEY not found in environment. "
-                "Get free API key from https://console.groq.com/ (no payment needed)"
+                "Obtain API key from https://console.groq.com/"
             )
         self.llm = ChatGroq(model=model_name, temperature=0.0, groq_api_key=api_key)
         self.prompt = ChatPromptTemplate.from_template(

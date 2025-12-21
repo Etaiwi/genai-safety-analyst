@@ -38,7 +38,7 @@ class VectorStore:
     ):
         self.persist_dir = persist_dir
         self.collection_name = collection_name
-        # Using free HuggingFace embeddings - no API key needed!
+        # Using HuggingFace embeddings - local execution, no API key required
         self.embeddings = HuggingFaceEmbeddings(
             model_name=embedding_model,
             model_kwargs={"device": "cpu"},  # Use CPU (or "cuda" if you have GPU)

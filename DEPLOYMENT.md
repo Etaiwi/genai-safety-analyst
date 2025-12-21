@@ -1,31 +1,30 @@
-# Deployment Guide - AWS EC2 Free Tier
+# Deployment Guide - AWS EC2
 
-This guide shows how to deploy the GenAI Safety Analyst to AWS EC2 free tier, keeping everything **100% free**.
+This guide covers deploying the GenAI Safety Analyst to AWS EC2 using free tier eligible instances.
 
 ## Prerequisites
 
-1. **AWS Account** (free tier eligible)
-2. **Groq API Key** (free, no payment method needed)
+1. AWS Account (free tier eligible)
+2. Groq API Key
    - Sign up at: https://console.groq.com/
-   - Get your free API key
+   - Obtain your API key
 
-## Cost Breakdown (All Free!)
+## Cost Structure
 
-- ✅ **EC2 t2.micro/t3.micro**: 750 hours/month free (enough for 24/7)
-- ✅ **Groq LLM API**: Free tier (30 requests/minute, generous limits)
-- ✅ **HuggingFace Embeddings**: Free (runs locally)
-- ✅ **ChromaDB**: Free (local storage)
-- ✅ **Total Cost**: $0/month
+- EC2 t2.micro/t3.micro: 750 hours/month (free tier)
+- Groq LLM API: Tier-based (30 requests/minute on free tier)
+- HuggingFace Embeddings: Local execution (no API costs)
+- ChromaDB: Local storage (no cloud costs)
 
-## Step 1: Get Groq API Key (Free)
+## Step 1: Obtain Groq API Key
 
-1. Go to https://console.groq.com/
-2. Sign up (no payment method required!)
-3. Go to API Keys section
+1. Visit https://console.groq.com/
+2. Sign up for an account
+3. Navigate to API Keys section
 4. Create a new API key
-5. Copy it - you'll add it to `.env` file
+5. Copy the key for environment configuration
 
-## Step 2: Update .env File
+## Step 2: Configure Environment Variables
 
 Add to your `.env` file:
 ```
@@ -34,17 +33,17 @@ GROQ_API_KEY=your-groq-api-key-here
 
 ## Step 3: Launch EC2 Instance
 
-1. **Go to AWS Console** → EC2
-2. **Launch Instance**:
-   - **AMI**: Amazon Linux 2023 (free tier eligible)
-   - **Instance Type**: t2.micro or t3.micro (free tier)
-   - **Key Pair**: Create/download a key pair for SSH
-   - **Security Group**: 
+1. Navigate to AWS Console → EC2
+2. Launch Instance:
+   - AMI: Amazon Linux 2023 (free tier eligible)
+   - Instance Type: t2.micro or t3.micro (free tier)
+   - Key Pair: Create/download a key pair for SSH
+   - Security Group: 
      - Allow SSH (port 22) from your IP
      - Allow HTTP (port 80) from anywhere (0.0.0.0/0)
      - Allow Custom TCP (port 8000) from anywhere (for FastAPI)
 
-3. **Launch** the instance
+3. Launch the instance
 
 ## Step 4: Connect to EC2
 
@@ -92,7 +91,7 @@ GROQ_API_KEY=your-groq-api-key-here
 python3.11 -m src.utils.ingest_policies
 ```
 
-You should see: `Ingested 6 policy docs into Chroma.`
+Expected output: `Ingested 6 policy docs into Chroma.`
 
 ## Step 8: Start the API Server
 
@@ -143,9 +142,9 @@ Your API will be available at:
 
 ## Step 10: (Optional) Set Up Domain Name
 
-1. Get a free domain from Freenom or use Route 53
+1. Obtain a domain (Freenom or Route 53)
 2. Point DNS to your EC2 IP
-3. Use nginx as reverse proxy (optional)
+3. Configure nginx as reverse proxy (optional)
 
 ## Monitoring & Maintenance
 
@@ -164,56 +163,47 @@ sudo systemctl restart genai-safety
 df -h
 ```
 
-## Free Tier Limits
+## Service Limits
 
-- **EC2**: 750 hours/month (enough for 24/7 on one instance)
-- **Groq**: 30 requests/minute (free tier)
-- **Storage**: 30 GB free (EBS)
+- EC2: 750 hours/month (sufficient for continuous operation on one instance)
+- Groq: 30 requests/minute (free tier)
+- Storage: 30 GB free (EBS)
 
 ## Troubleshooting
 
 ### Port not accessible?
-- Check security group rules
-- Check EC2 instance firewall
+- Verify security group rules
+- Check EC2 instance firewall configuration
 
 ### API key errors?
-- Verify `.env` file has `GROQ_API_KEY`
+- Verify `.env` file contains `GROQ_API_KEY`
 - Check Groq console for API key status
 
 ### Out of memory?
-- t2.micro has 1GB RAM - might be tight
+- t2.micro provides 1GB RAM (may be insufficient)
 - Consider t3.micro (2GB RAM) - still free tier eligible
 
 ## Security Notes
 
-1. **Never commit `.env`** to Git (already in `.gitignore`)
-2. **Use security groups** to limit access
-3. **Keep EC2 updated**: `sudo yum update -y`
-4. **Use HTTPS** in production (set up Let's Encrypt)
+1. Never commit `.env` to Git (already in `.gitignore`)
+2. Use security groups to limit access
+3. Keep EC2 updated: `sudo yum update -y`
+4. Use HTTPS in production (configure Let's Encrypt)
 
 ## Cost Monitoring
 
-- Check AWS Billing Dashboard regularly
-- Set up billing alerts (free)
+- Review AWS Billing Dashboard regularly
+- Configure billing alerts
 - Monitor EC2 usage in CloudWatch (free tier)
 
 ---
 
 ## Summary
 
-✅ **Everything Free**:
+The deployment uses:
 - EC2 free tier (750 hrs/month)
-- Groq free LLM API
-- HuggingFace free embeddings
-- ChromaDB (local, free)
+- Groq tier-based LLM API
+- HuggingFace local embeddings
+- ChromaDB local storage
 
-✅ **No Payment Method Needed** for:
-- Groq API (free tier)
-- HuggingFace (free)
-
-✅ **EC2 Free Tier** requires:
-- AWS account (can use free tier)
-- Credit card (but won't be charged if you stay within limits)
-
-Your project is now **100% free** and ready for cloud deployment! 🚀
-
+The architecture supports production deployment while maintaining low operational costs.

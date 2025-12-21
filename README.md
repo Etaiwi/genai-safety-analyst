@@ -1,22 +1,22 @@
 # genai-safety-analyst
 
-FastAPI service that runs a multi-agent pipeline (LangChain + Groq + HuggingFace) to classify content and return structured safety decisions. **100% Free** - no payment methods required!
+FastAPI service that runs a multi-agent pipeline (LangChain + Groq + HuggingFace) to classify content and return structured safety decisions. The architecture is optimized for cost efficiency using open-source and tier-based services.
 
 ## Features
 
-- ✅ **Free LLM**: Groq API (free tier, no payment needed)
-- ✅ **Free Embeddings**: HuggingFace sentence-transformers (runs locally)
-- ✅ **Free Vector DB**: ChromaDB (local storage)
-- ✅ **Multi-Agent Pipeline**: Classifier → Retriever → Compliance agents
-- ✅ **RAG-based**: Semantic search for policy matching
+- Multi-Agent Pipeline: Classifier → Retriever → Compliance agents
+- RAG-based Retrieval: Semantic search for policy matching
+- Cost-Optimized: Uses tier-based services and local execution where possible
+- Fast Inference: Optimized LLM inference via Groq
+- Local Embeddings: HuggingFace sentence-transformers (runs locally)
 
 ## Setup
 
-### 1. Get Free API Key
+### 1. Obtain API Key
 
-**Groq API Key** (free, no payment method needed):
+**Groq API Key**:
 1. Sign up at: https://console.groq.com/
-2. Get your free API key
+2. Obtain your API key
 3. Add to `.env` file:
 
 ```bash
@@ -48,13 +48,13 @@ API will be available at: http://localhost:8000
 - Health check: http://localhost:8000/health
 - API docs: http://localhost:8000/docs
 
-## Deploy to AWS EC2 (Free Tier)
+## Deploy to AWS EC2
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for complete guide to deploy on AWS EC2 free tier.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for complete guide to deploy on AWS EC2.
 
-## Cost: $0/month
+## Cost Structure
 
-- **Groq LLM**: Free tier (30 req/min)
-- **HuggingFace**: Free (local embeddings)
-- **ChromaDB**: Free (local storage)
-- **EC2**: Free tier (750 hrs/month) - enough for 24/7
+- **Groq LLM**: Tier-based (generous free tier available)
+- **HuggingFace**: Local execution (no API costs)
+- **ChromaDB**: Local storage (no cloud costs)
+- **EC2**: Free tier eligible (750 hrs/month)
