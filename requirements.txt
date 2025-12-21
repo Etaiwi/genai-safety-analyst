@@ -2,11 +2,12 @@ fastapi
 uvicorn[standard]
 pydantic
 langchain
-langchain-openai
-numpy
+langchain-chroma
+langchain-huggingface
+langchain-groq
+sentence-transformers
 pandas
 chromadb
 python-dotenv
-httpx
 pytest
 pytest-asyncio

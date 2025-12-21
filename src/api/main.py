@@ -1,13 +1,12 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
 from typing import List, Optional
 
 from dotenv import load_dotenv
-import os
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 
-load_dotenv()  # loads OPENAI_API_KEY, etc.
+load_dotenv()  # loads GROQ_API_KEY for free LLM (no payment method needed)
 
 app = FastAPI(
     title="GenAI Safety Analyst",
