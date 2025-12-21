@@ -211,6 +211,9 @@ curl http://localhost:8000/health
 curl -X POST "http://localhost:8000/analyze" \
   -H "Content-Type: application/json" \
   -d '{"id": "test1", "text": "Hello, how are you?"}'
+
+# Unit tests (requires PYTHONPATH for src/ imports)
+PYTHONPATH=. pytest -q
 ```
 
 ## Deployment
