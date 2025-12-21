@@ -9,5 +9,6 @@ sentence-transformers
 pandas
 chromadb
 python-dotenv
+httpx
 pytest
 pytest-asyncio
