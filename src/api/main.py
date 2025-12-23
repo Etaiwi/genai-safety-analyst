@@ -1,18 +1,23 @@
 from typing import List, Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+load_dotenv()  # loads GROQ_API_KEY for LLM service
+
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline
+from .ui import router as ui_router
+from src.utils.guardrails import enforce_guardrails
 
-load_dotenv()  # loads GROQ_API_KEY for LLM service
 
 app = FastAPI(
     title="GenAI Safety Analyst",
     description="LLM-powered multi-agent service for content safety analysis.",
     version="0.1.0",
 )
+
+app.include_router(ui_router)
 
 pipeline = AnalysisPipeline()
 
@@ -41,10 +46,11 @@ def health_check():
 
 
 @app.post("/analyze", response_model=AnalysisResponse)
-async def analyze_content(item: ContentItem):
+async def analyze_content(request: Request, item: ContentItem):
     """
-    Calls the async analysis pipeline.
+    Calls the async analysis pipeline with guardrails protection.
     """
+    enforce_guardrails(request=request, text=item.text)
     result = await pipeline.analyze(content_id=item.id, text=item.text)
     return AnalysisResponse(
         content_id=result["content_id"],
