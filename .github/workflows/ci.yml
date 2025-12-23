@@ -29,5 +29,6 @@ jobs:
         env:
           GROQ_API_KEY: "test"
           HF_TOKEN: "test"
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           pytest -q
