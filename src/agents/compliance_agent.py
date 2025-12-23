@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Literal
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
@@ -10,7 +10,7 @@ from .base import BaseAgent
 
 class ComplianceResult(BaseModel):
     """Structured output for compliance agent"""
-    label: str = Field(description="Policy decision: 'allowed', 'flag', or 'block'", enum=["allowed", "flag", "block"])
+    label: Literal["allowed", "flag", "block"] = Field(description="Policy decision: 'allowed', 'flag', or 'block'")
     confidence: float = Field(description="Confidence score between 0.0 and 1.0", ge=0.0, le=1.0)
     reasons: List[str] = Field(description="2-5 short bullet reasons for the decision")
 
