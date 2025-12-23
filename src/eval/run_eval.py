@@ -4,10 +4,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
+load_dotenv()  # Load environment variables
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline
-
-load_dotenv()  # Load environment variables
 
 
 def _safe_float(x, default=np.nan):
@@ -45,7 +44,11 @@ async def run_eval(csv_path: Path, out_path: Path):
     pipeline = AnalysisPipeline()
 
     tasks = [ _run_one(pipeline, row) for _, row in df.iterrows() ]
-    results = await asyncio.gather(*tasks)
+    results = []
+    for i, task in enumerate(tasks):
+        print(f"Processing sample {i+1}/{len(tasks)}: {df.iloc[i]['id']}")
+        result = await task
+        results.append(result)
 
     out_df = pd.DataFrame(results)
 
