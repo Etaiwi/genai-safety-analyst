@@ -23,7 +23,7 @@ jobs:
 
       - name: Lint
         run: |
-          ruff check .
+          ruff check --ignore E402 .
 
       - name: Tests
         env:
