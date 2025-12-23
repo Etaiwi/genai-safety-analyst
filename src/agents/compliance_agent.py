@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict, List, Literal
+from typing import Any, Literal
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
@@ -10,9 +10,12 @@ from .base import BaseAgent
 
 class ComplianceResult(BaseModel):
     """Structured output for compliance agent"""
-    label: Literal["allowed", "flag", "block"] = Field(description="Policy decision: 'allowed', 'flag', or 'block'")
+
+    label: Literal["allowed", "flag", "block"] = Field(
+        description="Policy decision: 'allowed', 'flag', or 'block'"
+    )
     confidence: float = Field(description="Confidence score between 0.0 and 1.0", ge=0.0, le=1.0)
-    reasons: List[str] = Field(description="2-5 short bullet reasons for the decision")
+    reasons: list[str] = Field(description="2-5 short bullet reasons for the decision")
 
 
 class ComplianceAgent(BaseAgent):
@@ -58,24 +61,24 @@ class ComplianceAgent(BaseAgent):
             """
         )
 
-    async def run(self, **kwargs) -> Dict[str, Any]:
+    async def run(self, **kwargs) -> dict[str, Any]:
         text: str = kwargs["text"]
         category: str = kwargs.get("category", "")
-        policies_list: List[Dict[str, Any]] = kwargs.get("retrieved_policies", [])
+        policies_list: list[dict[str, Any]] = kwargs.get("retrieved_policies", [])
 
         # Compact format for LLM input
-        policies_str = "\n\n".join(
-            [
-                f"[{p.get('policy_id')}] {p.get('title')} (cat={p.get('category')}, severity={p.get('severity')})\n{p.get('snippet')}"
-                for p in policies_list
-            ]
-        ) or "None"
+        policies_str = (
+            "\n\n".join(
+                [
+                    f"[{p.get('policy_id')}] {p.get('title')} (cat={p.get('category')}, severity={p.get('severity')})\n{p.get('snippet')}"
+                    for p in policies_list
+                ]
+            )
+            or "None"
+        )
 
         chain = self.prompt | self.llm.with_structured_output(ComplianceResult)
-        result = await chain.ainvoke(
-            {"text": text, "category": category, "policies": policies_str}
-        )
+        result = await chain.ainvoke({"text": text, "category": category, "policies": policies_str})
 
         # Convert Pydantic model to dict (confidence already validated by Pydantic)
         return result.model_dump()
-

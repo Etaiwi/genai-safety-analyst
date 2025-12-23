@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+
 import pandas as pd
 
 
@@ -12,10 +12,10 @@ class PolicyDoc:
     severity: str
 
 
-def load_policies_csv(path: str) -> List[PolicyDoc]:
+def load_policies_csv(path: str) -> list[PolicyDoc]:
     df = pd.read_csv(path)
     df = df.fillna("")
-    policies: List[PolicyDoc] = []
+    policies: list[PolicyDoc] = []
     for _, row in df.iterrows():
         policies.append(
             PolicyDoc(

@@ -1,15 +1,14 @@
 import os
-from typing import List, Optional, Tuple
 
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_core.documents import Document
 from langchain_chroma import Chroma  # requires langchain-chroma package
+from langchain_core.documents import Document
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from .policy_loader import PolicyDoc
 
 
-def build_documents(policies: List[PolicyDoc]) -> List[Document]:
-    docs: List[Document] = []
+def build_documents(policies: list[PolicyDoc]) -> list[Document]:
+    docs: list[Document] = []
     for p in policies:
         docs.append(
             Document(
@@ -51,7 +50,7 @@ class VectorStore:
             persist_directory=self.persist_dir,
         )
 
-    def upsert_documents(self, docs: List[Document]) -> int:
+    def upsert_documents(self, docs: list[Document]) -> int:
         """
         Adds documents to the collection. Returns number of docs added.
         """
@@ -64,8 +63,8 @@ class VectorStore:
         self,
         query: str,
         k: int = 4,
-        category_filter: Optional[str] = None,
-    ) -> List[Tuple[Document, float]]:
+        category_filter: str | None = None,
+    ) -> list[tuple[Document, float]]:
         """
         Returns list of (Document, score). Lower score not always better depending on backend,
         but in practice this works fine for ranking with Chroma.

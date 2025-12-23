@@ -1,10 +1,8 @@
 import os
 import time
 from collections import deque
-from typing import Deque, Dict
 
 from fastapi import HTTPException, Request
-
 
 # ====== Config ======
 MAX_TEXT_CHARS = int(os.getenv("MAX_TEXT_CHARS", "1200"))
@@ -19,7 +17,7 @@ DEMO_TOKEN = os.getenv("DEMO_TOKEN", "").strip()
 
 
 # In-memory rate limit store: ip -> deque[timestamps]
-_rate_store: Dict[str, Deque[float]] = {}
+_rate_store: dict[str, deque[float]] = {}
 
 
 def _get_client_ip(request: Request) -> str:

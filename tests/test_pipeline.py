@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 
@@ -19,7 +20,9 @@ async def test_pipeline_short_circuit_allowed(monkeypatch):
     mock_classifier.run = fake_classifier_run
 
     # Patch the agent classes before AnalysisPipeline creates instances
-    monkeypatch.setattr("src.pipelines.analysis_pipeline.ClassifierAgent", MagicMock(return_value=mock_classifier))
+    monkeypatch.setattr(
+        "src.pipelines.analysis_pipeline.ClassifierAgent", MagicMock(return_value=mock_classifier)
+    )
     monkeypatch.setattr("src.pipelines.analysis_pipeline.RetrieverAgent", MagicMock())
     monkeypatch.setattr("src.pipelines.analysis_pipeline.ComplianceAgent", MagicMock())
 
@@ -74,9 +77,15 @@ async def test_pipeline_full_flow_flag(monkeypatch):
     mock_compliance.run = fake_compliance_run
 
     # Patch the agent classes before creating pipeline
-    monkeypatch.setattr("src.pipelines.analysis_pipeline.ClassifierAgent", MagicMock(return_value=mock_classifier))
-    monkeypatch.setattr("src.pipelines.analysis_pipeline.RetrieverAgent", MagicMock(return_value=mock_retriever))
-    monkeypatch.setattr("src.pipelines.analysis_pipeline.ComplianceAgent", MagicMock(return_value=mock_compliance))
+    monkeypatch.setattr(
+        "src.pipelines.analysis_pipeline.ClassifierAgent", MagicMock(return_value=mock_classifier)
+    )
+    monkeypatch.setattr(
+        "src.pipelines.analysis_pipeline.RetrieverAgent", MagicMock(return_value=mock_retriever)
+    )
+    monkeypatch.setattr(
+        "src.pipelines.analysis_pipeline.ComplianceAgent", MagicMock(return_value=mock_compliance)
+    )
 
     pipeline = AnalysisPipeline()
 

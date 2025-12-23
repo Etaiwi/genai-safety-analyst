@@ -1,15 +1,14 @@
-from typing import List, Optional
-
 from dotenv import load_dotenv
+
 load_dotenv()  # loads GROQ_API_KEY for LLM service
 
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline
-from .ui import router as ui_router
 from src.utils.guardrails import enforce_guardrails
 
+from .ui import router as ui_router
 
 app = FastAPI(
     title="GenAI Safety Analyst",
@@ -23,16 +22,17 @@ pipeline = AnalysisPipeline()
 
 # === Request / Response Schemas ===
 
+
 class ContentItem(BaseModel):
     id: str
     text: str
-    language: Optional[str] = "en"
+    language: str | None = "en"
 
 
 class PolicyDecision(BaseModel):
-    label: str               # e.g. "allowed", "flag", "block"
+    label: str  # e.g. "allowed", "flag", "block"
     confidence: float
-    reasons: List[str]
+    reasons: list[str]
 
 
 class AnalysisResponse(BaseModel):
@@ -53,6 +53,5 @@ async def analyze_content(request: Request, item: ContentItem):
     enforce_guardrails(request=request, text=item.text)
     result = await pipeline.analyze(content_id=item.id, text=item.text)
     return AnalysisResponse(
-        content_id=result["content_id"],
-        decision=PolicyDecision(**result["decision"])
+        content_id=result["content_id"], decision=PolicyDecision(**result["decision"])
     )

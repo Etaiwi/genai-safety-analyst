@@ -1,7 +1,7 @@
-from typing import Any, Dict, List
+from typing import Any
 
-from .base import BaseAgent
 from ..utils.vector_db import VectorStore
+from .base import BaseAgent
 
 
 class RetrieverAgent(BaseAgent):
@@ -13,7 +13,7 @@ class RetrieverAgent(BaseAgent):
         self.store = store or VectorStore()
         self.top_k = top_k
 
-    async def run(self, **kwargs) -> Dict[str, Any]:
+    async def run(self, **kwargs) -> dict[str, Any]:
         text: str = kwargs["text"]
         category: str = kwargs.get("category", "")
 
@@ -26,7 +26,7 @@ class RetrieverAgent(BaseAgent):
             category_filter=category if category else None,
         )
 
-        retrieved: List[Dict[str, Any]] = []
+        retrieved: list[dict[str, Any]] = []
         for doc, score in hits:
             retrieved.append(
                 {
@@ -40,4 +40,3 @@ class RetrieverAgent(BaseAgent):
             )
 
         return {"retrieved_policies": retrieved}
-

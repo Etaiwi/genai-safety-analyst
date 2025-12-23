@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
@@ -10,8 +10,13 @@ from .base import BaseAgent
 
 class ClassifierResult(BaseModel):
     """Structured output for classifier agent"""
-    category: str = Field(description="Content category (e.g. 'harassment', 'self-harm', 'politics', 'benign')")
-    needs_review: bool = Field(description="Whether content requires detailed safety/compliance review")
+
+    category: str = Field(
+        description="Content category (e.g. 'harassment', 'self-harm', 'politics', 'benign')"
+    )
+    needs_review: bool = Field(
+        description="Whether content requires detailed safety/compliance review"
+    )
     explanation: str = Field(description="Brief explanation of the classification")
 
 
@@ -48,7 +53,7 @@ class ClassifierAgent(BaseAgent):
             """
         )
 
-    async def run(self, **kwargs) -> Dict[str, Any]:
+    async def run(self, **kwargs) -> dict[str, Any]:
         text = kwargs["text"]
         chain = self.prompt | self.llm.with_structured_output(ClassifierResult)
         result = await chain.ainvoke({"text": text})

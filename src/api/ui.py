@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, Request, HTTPException
+from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 
 from src.pipelines.analysis_pipeline import AnalysisPipeline

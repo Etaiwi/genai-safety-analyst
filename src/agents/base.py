@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any
 
 
 class BaseAgent(ABC):
@@ -8,5 +8,4 @@ class BaseAgent(ABC):
     """
 
     @abstractmethod
-    async def run(self, **kwargs) -> Dict[str, Any]:
-        ...
+    async def run(self, **kwargs) -> dict[str, Any]: ...

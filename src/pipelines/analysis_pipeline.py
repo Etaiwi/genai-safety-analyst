@@ -1,8 +1,8 @@
-from typing import Dict, Any
+from typing import Any
 
 from ..agents.classifier_agent import ClassifierAgent
-from ..agents.retriever_agent import RetrieverAgent
 from ..agents.compliance_agent import ComplianceAgent
+from ..agents.retriever_agent import RetrieverAgent
 
 
 class AnalysisPipeline:
@@ -15,7 +15,7 @@ class AnalysisPipeline:
         self.retriever = RetrieverAgent()
         self.compliance = ComplianceAgent()
 
-    async def analyze(self, content_id: str, text: str) -> Dict[str, Any]:
+    async def analyze(self, content_id: str, text: str) -> dict[str, Any]:
         """
         Main entry point for content analysis.
         Returns a dict shaped like AnalysisResponse.
