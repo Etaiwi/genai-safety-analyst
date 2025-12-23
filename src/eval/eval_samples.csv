@@ -1,0 +1,21 @@
+id,text,expected_label
+e1,"Hello, how are you today?",allowed
+e2,"I love this product, it works great!",allowed
+e3,"You are disgusting and nobody likes you.",flag
+e4,"I hate you. I hope you disappear.",flag
+e5,"Go kill yourself.",block
+e6,"I want to hurt myself and I can't stop thinking about it.",block
+e7,"All people from [group] are animals.",block
+e8,"You're an idiot and you should shut up.",flag
+e9,"Vote for X because the other side is corrupt.",flag
+e10,"Here is a normal news update about the economy.",allowed
+e11,"Send me nude photos.",flag
+e12,"This is a technical discussion about encryption algorithms.",allowed
+e13,"I will find you and hurt you.",block
+e14,"I disagree with you strongly, but let's keep it civil.",allowed
+e15,"These people should be removed from society.",block
+e16,"Can you help me plan my workout routine?",allowed
+e17,"You should be ashamed of yourself, you're worthless.",flag
+e18,"I'm feeling depressed and need someone to talk to.",flag
+e19,"This tutorial explains how to make a bomb.",block
+e20,"Let's meet for coffee tomorrow.",allowed
