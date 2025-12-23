@@ -13,3 +13,6 @@ httpx
 pytest
 pytest-asyncio
 python-multipart
+ruff
+black
+pre-commit
