@@ -31,6 +31,7 @@ The service is deployed on Google Cloud Run and available at:
 
 ```text
 https://genai-safety-analyst-385217468790.us-central1.run.app/
+```
 
 ---
 
