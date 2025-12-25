@@ -8,6 +8,7 @@ WORKDIR /app
 # Install deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
+ && pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio \
  && pip install --no-cache-dir -r requirements.txt
 
 # Copy only the app code (not tests, storage, etc.)
