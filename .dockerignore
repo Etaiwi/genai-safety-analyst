@@ -1,14 +1,12 @@
 # virtual env / python cache
 .venv
 __pycache__/
-**/__pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 
 # tooling caches
 .pytest_cache/
-src/.pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
