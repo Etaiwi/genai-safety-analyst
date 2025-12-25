@@ -19,6 +19,7 @@ htmlcov/
 
 # local data/state
 storage/
+src/.pytest_cache/
 
 # secrets
 .env
