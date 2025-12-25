@@ -38,6 +38,7 @@ class PolicyDecision(BaseModel):
     label: str  # e.g. "allowed", "flag", "block"
     confidence: float
     reasons: list[str]
+    category: str = ""  # Content category (e.g. "harassment", "violence")
 
 
 class AnalysisResponse(BaseModel):
