@@ -1,11 +1,11 @@
 import json
 import time
+from functools import lru_cache
 from typing import Any
 
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 
-from functools import lru_cache
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 from src.utils.guardrails import MAX_TEXT_CHARS, enforce_guardrails
 

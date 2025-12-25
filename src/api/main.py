@@ -1,15 +1,15 @@
+from functools import lru_cache
+
 from dotenv import load_dotenv
-
-load_dotenv()  # loads GROQ_API_KEY for LLM service
-
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
-from functools import lru_cache
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 from src.utils.guardrails import enforce_guardrails
 
 from .ui import router as ui_router
+
+load_dotenv()  # loads GROQ_API_KEY for LLM service
 
 app = FastAPI(
     title="GenAI Safety Analyst",
