@@ -30,6 +30,7 @@ class AnalysisPipeline:
             decision = {
                 "label": "allowed",
                 "confidence": 0.85,
+                "category": category,
                 "reasons": [
                     f"Classifier categorized as '{category}' and determined no further review is needed.",
                     cls_result["explanation"],
@@ -51,6 +52,7 @@ class AnalysisPipeline:
         decision = {
             "label": compliance["label"],
             "confidence": compliance["confidence"],
+            "category": category,
             "reasons": compliance["reasons"],
         }
 

@@ -35,29 +35,18 @@ class ComplianceAgent(BaseAgent):
         self.llm = ChatGroq(model=model_name, temperature=0.0, groq_api_key=api_key)
         self.prompt = ChatPromptTemplate.from_template(
             """
-            You are a policy compliance analyst for user-generated content.
+            Content moderation decision.
 
-            Content:
-            {text}
+            RULES:
+            - BLOCK: self-harm, hate, violence, illegal, drugs, weapons, extremism, child-safety
+            - FLAG: harassment, misinformation, sexual, privacy, spam, politics
+            - ALLOWED: benign content
 
-            Classifier category:
-            {category}
+            Content: {text}
+            Category: {category}
+            Policies: {policies}
 
-            Retrieved policy snippets:
-            {policies}
-
-            Task:
-            Decide the best policy outcome:
-              - allowed
-              - flag
-              - block
-
-            Provide:
-              - label: one of allowed/flag/block
-              - confidence: number 0..1
-              - reasons: 2-5 short bullet reasons tied to the policies when possible
-
-            Respond in JSON with keys: label, confidence, reasons
+            Return JSON: {{"label": "allowed|flag|block", "confidence": 0.0-1.0, "reasons": ["reason1", "reason2"]}}
             """
         )
 

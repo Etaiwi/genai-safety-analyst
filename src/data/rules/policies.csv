@@ -5,3 +5,12 @@ p3,hate,Hate,"Content that attacks a protected group (based on race, religion, e
 p4,sexual,Sexual content,"Explicit sexual content involving minors must be blocked and escalated. Adult explicit content may be restricted depending on policy context.",high
 p5,benign,Benign content,"General neutral content that does not violate policy should be allowed.",low
 p6,politics,Political persuasion,"Political persuasion content may require labeling depending on jurisdiction and policy. Targeted persuasion or misinformation claims may require review.",medium
+p7,violence,Violence & Threats,"Content promoting or describing violence against others, including threats, assault, or harm to individuals/groups should be blocked. This includes calls to action for violent behavior.",high
+p8,misinformation,Misinformation,"Content containing demonstrably false information that could cause harm, spread panic, or mislead people should be flagged for review. This includes conspiracy theories and manipulated media.",medium
+p9,illegal,Illegal Activities,"Content promoting or instructing on illegal activities such as drug manufacturing, hacking, fraud, or other criminal behavior should be blocked.",high
+p10,drugs,Drug Use,"Content promoting illegal drug use, manufacturing, or distribution should be blocked. Educational content about drug effects may be allowed with appropriate warnings.",high
+p11,weapons,Weapons & Firearms,"Content promoting illegal weapon possession, manufacturing, or use should be blocked. This includes instructions for making explosives or illegal firearms.",high
+p12,child-safety,Child Safety,"Content that could endanger children, including exploitation, abduction threats, or content that could be used to groom or harm minors should be blocked.",high
+p13,spam,Spam & Advertising,"Unsolicited commercial content, scams, or excessive promotional material should be flagged. This includes pyramid schemes and fraudulent offers.",low
+p14,privacy,Privacy Violations,"Content that reveals personal information, doxxing, or violates privacy rights should be flagged for review.",medium
+p15,extremism,Extremist Content,"Content promoting extremist ideologies, terrorism, or radicalization should be blocked.",high

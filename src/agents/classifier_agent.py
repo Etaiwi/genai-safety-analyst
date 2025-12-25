@@ -38,18 +38,21 @@ class ClassifierAgent(BaseAgent):
         self.llm = ChatGroq(model=model_name, temperature=0.0, groq_api_key=api_key)
         self.prompt = ChatPromptTemplate.from_template(
             """
-            You are a content safety classifier.
+            Classify content for safety/compliance review.
 
-            Input text:
-            {text}
+            CATEGORIES: harassment|hate|self-harm|violence|illegal|sexual|drugs|weapons|misinformation|child-safety|spam|privacy|extremism|politics|benign
 
-            1. Classify the main category of this text
-               (e.g. 'harassment', 'self-harm', 'politics', 'benign', etc.).
-            2. Decide if this text requires a detailed safety/compliance review.
-               Use true (boolean) if review is needed, false (boolean) if not.
-            3. Explain briefly why.
+            EXAMPLES:
+            - "You worthless idiot" → harassment, needs_review: true
+            - "I want to kill myself" → self-harm, needs_review: true
+            - "All [group] inferior" → hate, needs_review: true
+            - "Hack websites" → illegal, needs_review: true
+            - "Buy my product!" → spam, needs_review: false
+            - "Hello friend" → benign, needs_review: false
 
-            IMPORTANT: needs_review must be a boolean (true or false), not a string.
+            Content: {text}
+
+            Return JSON: {{"category": "category_name", "needs_review": true|false, "explanation": "brief reason"}}
             """
         )
 
