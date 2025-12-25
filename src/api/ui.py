@@ -1,3 +1,4 @@
+import json
 import time
 from typing import Any
 
@@ -149,7 +150,7 @@ def get_examples_html() -> str:
 
     return f"""
     <script>
-        const examplesData = {examples_data};
+        const examplesData = {json.dumps(examples_data)};
     </script>
     <div style="
         margin-top: 20px;
@@ -187,7 +188,7 @@ def page(template_body: str, include_history: bool = False) -> HTMLResponse:
     if include_history:
         history_script = f"""
         // History data
-        const historyData = {history_data};
+        const historyData = {json.dumps(history_data)};
 
         function loadFromHistory(historyId) {{
           const text = historyData[historyId];
@@ -231,7 +232,6 @@ def page(template_body: str, include_history: bool = False) -> HTMLResponse:
                 button.style.cursor = isValid ? 'pointer' : 'not-allowed';
               }}
 
-<<<<<<< HEAD
               {history_script}
 
               function loadExample(exampleKey) {{
@@ -247,8 +247,6 @@ def page(template_body: str, include_history: bool = False) -> HTMLResponse:
                 }}
               }}
 
-=======
->>>>>>> 785715ea2944ec66b434ba2a7b5eecb66cb43225
               // Initialize on page load
               document.addEventListener('DOMContentLoaded', function() {{
                 updateCounter();

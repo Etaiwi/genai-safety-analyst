@@ -36,8 +36,9 @@ async def run_eval(csv_path: Path, out_path: Path, max_samples: int = None):
 
     # Allow testing with a subset of samples for quick evaluation
     if max_samples and len(df) > max_samples:
+        original_len = len(df)
         df = df.head(max_samples)
-        print(f"Testing with first {max_samples} samples (out of {len(df)} total)")
+        print(f"Testing with first {max_samples} samples (out of {original_len} total)")
 
     # Check if we have a real API key
     import os
@@ -125,8 +126,9 @@ async def run_classifier_eval(csv_path: Path, out_path: Path, max_samples: int =
         return
 
     if max_samples and len(df) > max_samples:
+        original_len = len(df)
         df = df.head(max_samples)
-        print(f"Testing with first {max_samples} samples (out of {len(df)} total)")
+        print(f"Testing with first {max_samples} samples (out of {original_len} total)")
 
     classifier = ClassifierAgent()
 
