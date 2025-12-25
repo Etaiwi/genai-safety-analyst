@@ -5,6 +5,7 @@ load_dotenv()  # loads GROQ_API_KEY for LLM service
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
+from functools import lru_cache
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 from src.utils.guardrails import enforce_guardrails
 
@@ -18,7 +19,11 @@ app = FastAPI(
 
 app.include_router(ui_router)
 
-pipeline = AnalysisPipeline()
+
+@lru_cache(maxsize=1)
+def get_pipeline() -> AnalysisPipeline:
+    return AnalysisPipeline()
+
 
 # === Request / Response Schemas ===
 
@@ -51,6 +56,7 @@ async def analyze_content(request: Request, item: ContentItem):
     Calls the async analysis pipeline with guardrails protection.
     """
     enforce_guardrails(request=request, text=item.text)
+    pipeline = get_pipeline()
     result = await pipeline.analyze(content_id=item.id, text=item.text)
     return AnalysisResponse(
         content_id=result["content_id"], decision=PolicyDecision(**result["decision"])

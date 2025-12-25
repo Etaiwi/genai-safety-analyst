@@ -5,11 +5,17 @@ from typing import Any
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 
+from functools import lru_cache
 from src.pipelines.analysis_pipeline import AnalysisPipeline
 from src.utils.guardrails import MAX_TEXT_CHARS, enforce_guardrails
 
+
+@lru_cache(maxsize=1)
+def get_pipeline() -> AnalysisPipeline:
+    return AnalysisPipeline()
+
+
 router = APIRouter()
-pipeline = AnalysisPipeline()
 
 # In-memory storage for request history (last 5 analyses)
 request_history: list[dict[str, Any]] = []
@@ -307,6 +313,7 @@ async def analyze(request: Request, text: str = Form(...)):
     # Guardrails (rate limit + length + optional demo token)
     enforce_guardrails(request=request, text=text)
 
+    pipeline = get_pipeline()
     result = await pipeline.analyze(content_id="web-ui", text=text)
     decision = result["decision"]
 
