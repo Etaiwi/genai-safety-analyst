@@ -1,6 +1,69 @@
-# Deployment Guide – Google Cloud Run
+# Deployment Guide
 
-This document describes how to deploy the GenAI Safety Analyst service to Google Cloud Run using Docker and Artifact Registry.
+This document describes how to deploy the GenAI Safety Analyst service to Hugging Face Spaces and Google Cloud Run.
+
+## Hugging Face Spaces (Recommended)
+
+Hugging Face Spaces provides a simple and free way to deploy machine learning applications with automatic scaling and SSL certificates.
+
+### Prerequisites
+
+1. A Hugging Face account
+2. A Groq API key
+3. A Hugging Face access token (recommended for reliable model downloads)
+
+### Deployment Steps
+
+1. **Fork the Repository**
+   - Go to the [GenAI Safety Analyst repository](https://huggingface.co/spaces) on Hugging Face
+   - Fork it to your account (or upload your modified version)
+
+2. **Create a New Space**
+   - Go to [Hugging Face Spaces](https://huggingface.co/spaces)
+   - Click "Create new Space"
+   - Choose:
+     - Space name: `genai-safety-analyst` (or your preferred name)
+     - License: Select appropriate license
+     - SDK: `Docker`
+     - Visibility: `Public` or `Private`
+
+3. **Connect Repository**
+   - Select "Connect your repository" option
+   - Choose your forked repository
+
+4. **Configure Secrets**
+   - In your Space settings, go to "Settings" → "Secrets"
+   - Add the following secrets:
+     ```
+     GROQ_API_KEY=your_groq_api_key_here
+     HF_TOKEN=your_huggingface_token_here
+     MAX_TEXT_CHARS=1200
+     RATE_LIMIT_MAX_REQUESTS=20
+     RATE_LIMIT_WINDOW_SECONDS=60
+     ```
+
+5. **Deploy**
+   - HF Spaces will automatically build and deploy your application
+   - The build process may take 10-20 minutes
+   - Once deployed, your app will be available at `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE_NAME`
+
+### Updating Your Space
+
+When you make code changes:
+
+1. Push changes to your repository
+2. HF Spaces will automatically rebuild and redeploy
+
+### Hardware Requirements
+
+- **Memory**: At least 2GB RAM (recommended) or 1GB (minimum)
+- **Storage**: ~500MB for models and dependencies
+
+---
+
+## Google Cloud Run
+
+This section describes deployment to Google Cloud Run using Docker and Artifact Registry.
 
 The same container image can be deployed to other environments (for example, a VM or another container platform), but this guide focuses on Cloud Run.
 
@@ -167,10 +230,46 @@ If the container fails to start:
 
 - Verify that the image can be run locally with Docker.
 - Confirm that required environment variables (`GROQ_API_KEY`, `HF_TOKEN`, and guardrail parameters) are set.
-- Check that the application is listening on the port expected by Cloud Run (by default, the application is configured to listen on port 8000 inside the container, and Cloud Run routes traffic correctly to it).
+- Check that the application is listening on the port expected by Cloud Run (by default, the application is configured to listen on port 7860 inside the container, and Cloud Run routes traffic correctly to it).
 
 ---
 
 ## 9. Summary
 
 After following these steps, the service runs as a managed container on Google Cloud Run, using Artifact Registry for image storage and environment variables for configuration. The deployment can be updated by rebuilding the Docker image, pushing it to Artifact Registry, and redeploying the Cloud Run service.
+
+---
+
+## HF Spaces Troubleshooting
+
+### Build Failures
+
+If the Space fails to build:
+
+- Check the build logs in the Space settings
+- Ensure all dependencies in `requirements.txt` are compatible with HF Spaces
+- Verify that the Dockerfile uses the correct base image and exposes port 7860
+
+### Runtime Errors
+
+Common issues:
+
+- **Missing API Keys**: Ensure `GROQ_API_KEY` secret is set in Space settings
+- **Memory Issues**: If the app crashes due to memory, you may need to upgrade to a paid tier with more RAM
+- **Model Download Issues**: If `HF_TOKEN` is not set, model downloads may fail or be rate-limited
+
+### Accessing Logs
+
+- Build logs: Available in Space settings under "Build" tab
+- Runtime logs: Available in Space settings under "Logs" tab
+
+---
+
+## Summary
+
+The GenAI Safety Analyst can be deployed to both Hugging Face Spaces (recommended for simplicity) and Google Cloud Run (for more control). HF Spaces provides automatic scaling, SSL certificates, and a user-friendly interface, while Cloud Run offers more customization options and integration with Google Cloud services.
+
+Both deployment methods use the same Docker container and require:
+- At least 1GB RAM
+- GROQ_API_KEY environment variable
+- Optional HF_TOKEN for reliable model downloads

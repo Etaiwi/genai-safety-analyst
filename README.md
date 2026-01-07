@@ -1,3 +1,12 @@
+---
+title: GenAI Safety Analyst
+emoji: 🛡️
+colorFrom: blue
+colorTo: red
+sdk: docker
+pinned: false
+---
+
 # GenAI Safety Analyst
 
 A small, production-style content safety service built with FastAPI, LangChain, Groq, Hugging Face embeddings, and ChromaDB.  
@@ -27,10 +36,9 @@ Main capabilities:
 
 ## Live deployment
 
-The service is deployed on Google Cloud Run and available at:
+The service can be deployed on various platforms including Google Cloud Run and Hugging Face Spaces.
 
-```text
-https://genai-safety-analyst-385217468790.us-central1.run.app/
+For Hugging Face Spaces deployment, this repository is configured with the necessary metadata and Docker setup.
 
 ---
 
@@ -230,11 +238,29 @@ pre-commit run --all-files
 
 ## Deployment
 
-The project is designed to run as a containerized service.  
-The recommended deployment target is Google Cloud Run with:
+The project is designed to run as a containerized service and can be deployed to multiple platforms.
 
-- Container image stored in Artifact Registry.
-- Memory limit of at least 1 GiB to accommodate the embedding model.
-- Environment variables supplied via Cloud Run configuration.
+### Hugging Face Spaces (Recommended)
 
-For a step-by-step Cloud Run deployment guide, see [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+This repository is configured for easy deployment to Hugging Face Spaces:
+
+1. Fork this repository to your Hugging Face account
+2. Go to [Hugging Face Spaces](https://huggingface.co/spaces)
+3. Create a new Space and select "Docker" as the SDK
+4. Connect your forked repository
+5. Set the following secrets in your Space settings:
+   - `GROQ_API_KEY`: Your Groq API key
+   - `HF_TOKEN`: Your Hugging Face token (optional but recommended)
+   - `MAX_TEXT_CHARS`: Maximum text length (default: 1200)
+   - `RATE_LIMIT_MAX_REQUESTS`: Rate limit requests (default: 20)
+   - `RATE_LIMIT_WINDOW_SECONDS`: Rate limit window (default: 60)
+
+The Space will automatically build and deploy using the provided Dockerfile.
+
+### Google Cloud Run
+
+For Google Cloud Run deployment with Artifact Registry, see [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
+**Requirements for both platforms:**
+- Memory limit of at least 1 GiB to accommodate the embedding model
+- Environment variables for API keys and configuration
