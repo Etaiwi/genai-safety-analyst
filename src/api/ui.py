@@ -237,7 +237,7 @@ def home():
         {examples_html}
         {history_html}
         """,
-        include_history=True,
+        include_history=False,
     )
 
 
@@ -250,8 +250,9 @@ async def analyze(request: Request, text: str = Form(...)):
     result = await pipeline.analyze(content_id="web-ui", text=text)
     decision = result["decision"]
 
-    # Add to request history
-    add_to_history(text, decision)
+    # Skip adding to history for multi-user deployments (HF Spaces)
+    # to ensure each user has a clean experience
+    # add_to_history(text, decision)
 
     label = decision.get("label", "").upper()
     confidence = decision.get("confidence", 0.0)
@@ -356,5 +357,5 @@ async def analyze(request: Request, text: str = Form(...)):
         {result_html}
         {get_history_html()}
         """,
-        include_history=True,
+        include_history=False,
     )
