@@ -36,7 +36,13 @@ Main capabilities:
 
 ## Live deployment
 
-The service can be deployed on various platforms including Google Cloud Run and Hugging Face Spaces.
+The service is deployed on Hugging Face Spaces and available at:
+
+```text
+https://huggingface.co/spaces/Etaiwi/genai-safety-analyst
+```
+
+The service can also be deployed on various platforms including Google Cloud Run and other cloud providers.
 
 For Hugging Face Spaces deployment, this repository is configured with the necessary metadata and Docker setup.
 
