@@ -42,8 +42,9 @@ def add_to_history(text: str, decision: dict[str, Any]) -> None:
 
 def get_history_html() -> str:
     """Generate HTML for the request history."""
-    if not request_history:
-        return ""
+    # For multi-user deployments (like HF Spaces), don't show shared history
+    # to ensure each user has a clean experience
+    return ""
 
     history_items = []
     for item in request_history:
