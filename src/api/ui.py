@@ -218,6 +218,10 @@ def page(template_body: str, include_history: bool = False) -> HTMLResponse:
 
 @router.get("/", response_class=HTMLResponse)
 def home():
+    # Clear history for clean multi-user experience
+    global request_history
+    request_history.clear()
+
     examples_html = get_examples_html()
     history_html = get_history_html()
     return page(
