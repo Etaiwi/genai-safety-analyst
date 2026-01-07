@@ -5,7 +5,6 @@ colorFrom: blue
 colorTo: red
 sdk: docker
 pinned: false
-short_description: Content Safety Scanner - Check any text for harassment, hate
 ---
 
 # GenAI Safety Analyst
